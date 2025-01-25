@@ -42,7 +42,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/dashboard/clients",  // Modification ici
+    segment: "#/dashboard/clients",  
     title: "Clients",
     icon: <AssignmentIndIcon />,
   },
@@ -50,7 +50,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/dashboard/products",  // Modification ici
+    segment: "#/dashboard/products",  
     title: "Produits",
     icon: <ViewInArIcon />,
   },
@@ -58,7 +58,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/dashboard/categories",  // Modification ici
+    segment: "#/dashboard/categories",  
     title: "Catégories",
     icon: <ShoppingCartIcon />,
   },
@@ -66,17 +66,17 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/dashboard/reports",  // Modification ici
+    segment: "#/dashboard/reports",  
     title: "Analyse",
     icon: <BarChartIcon />,
     children: [
       {
-        segment: "#/dashboard/reports/sales",  // Modification ici
+        segment: "#/dashboard/reports/sales",  
         title: "Sales",
         icon: <DescriptionIcon />,
       },
       {
-        segment: "#/dashboard/reports/traffic",  // Modification ici
+        segment: "#/dashboard/reports/traffic",  
         title: "Traffic",
         icon: <DescriptionIcon />,
       },
@@ -99,7 +99,7 @@ const dashboardTheme = extendTheme({
   },
 });
 
-function BaseOfPages({ children }) {
+const BaseOfPages = ({ children }) => {
 
  const [session, setSession] = React.useState(demoSession);
   const authentication = React.useMemo(() => {

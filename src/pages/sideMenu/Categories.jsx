@@ -1,4 +1,4 @@
-import BaseOfPages from "../../Components/BaseOfPages";
+import BaseOfPages from "../../components/BaseOfPages";
 
 const Catégories = () => {
     
