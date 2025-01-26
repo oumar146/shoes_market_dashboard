@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-const SelectTextField = ({ defaultValue = null, datas, setData = null, label = "null", size = "100%" }) => {
+const SelectTextField = ({ disabled = false, defaultValue = null, datas, setData = null, label = "null", size = "100%" }) => {
   const [value, setValue] = useState(""); // Initialisation de l'état local avec defaultValue
 
   useEffect(() => {
@@ -27,6 +27,7 @@ const SelectTextField = ({ defaultValue = null, datas, setData = null, label = "
           label={label}
           value={value} 
           onChange={handleChange} 
+          disabled={disabled}
           required
         >
           {datas.map((data, index) => (

@@ -1,8 +1,8 @@
-import BaseOfPages from "../../components/BaseOfPages";
-import ProductsList from "../../components/products/ProductsList";
+import BaseOfPages from "../../../components/BaseOfPages";
+import ProductsList from "../../../components/products/ProductsList";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import config from "../../config";
+import config from "../../../config";
 
 const Products = () => {
   const [products, setProducts] = useState([]);

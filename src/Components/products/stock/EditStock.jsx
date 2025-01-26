@@ -1,4 +1,4 @@
-import { forwardRef, useState, useEffect } from "react";
+import { forwardRef, useState, Fragment, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,96 +7,59 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
+import EditStockForm from "./EditStockForm";
 import axios from "axios";
-import config from "../../config";
-import AddProductForm from "./AddProductForm";
-import { FormControl } from "@mui/material";
+import config from "../../../config";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function AddPopUp({
+function EditStock({
   refresh,
   setRefresh,
   isEditModalOpen,
   setIsEditModalOpen,
+  data,
 }) {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [gender, setGender] = useState("");
-  const [price, setPrice] = useState("");
-  const [categoryName, setCategoryName] = useState("");
-  const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [sizes, setSizes] = useState([]);
+  const [size, setSize] = useState();
+  const [quantity, setQuantity] = useState("");
 
-  useEffect(() => {
-    const fetchSizes = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/product/sizes`);
-        setSizes(response.data.sizes);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchSizes();
-  }, []); 
-
-  // Fonction de réinitialisation des champs
-  const resetFormFields = () => {
-    setName("");
-    setDescription("");
-    setGender("");
-    setPrice("");
-    setCategoryName("");
-    setImage(null);
-  };
+  // const { user } = useContext(UserContext);
 
   useEffect(() => {
     setOpen(isEditModalOpen);
   }, [isEditModalOpen]);
 
+  useEffect(() => {
+    // Charger les données du produit dans le formulaire lorsque le produit change
+    if (data) {
+      setSize(data.size || "");
+      setQuantity(data.quantity || "");
+    }
+  }, [data]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    if (!name || !description || !gender || !price || !categoryName || !image) {
-      alert("Tous les champs doivent être remplis.");
+    if (!data || !size || !quantity) {
       return;
     }
 
-    setIsSubmitting(true);
-    const creationDate = new Date().toISOString();
-
     const formData = {
-      name: name,
-      description: description,
-      creation_date: creationDate,
-      gender_name: gender,
-      price: price,
-      category_name: categoryName,
-      email: "salloumar0107@gmail.com",
-      creator_id: 2,
-      sizes : sizes
+      productId: data.product_id,
+      size_fk: size,
+      quantity: parseInt(quantity, 10),
     };
 
-    // Ajouter l'image si elle est présente
-    if (image) {
-      formData.image = image;
-    }
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(`${config.apiUrl}/product/new`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      resetFormFields(); // Réinitialiser les champs après soumission réussie
-      setRefresh(!refresh); // Refresh les data
-      handleClose(); // Fermer le modal
+      //   Mettre à jour les informations sur le produit
+      await axios.put(`${config.apiUrl}/product/stock/quantity`, formData);
+      setRefresh(!refresh);
+      handleClose();
     } catch (error) {
       console.error(error);
     } finally {
@@ -109,14 +72,12 @@ function AddPopUp({
 
   const handleClose = () => {
     if (!isSubmitting) {
-      resetFormFields(); 
       setOpen(false);
       setIsEditModalOpen(false);
     }
   };
-
   return (
-    <FormControl>
+    <Fragment>
       <Button
         style={{ backgroundColor: "transparent" }}
         onMouseDown={(e) => {
@@ -143,7 +104,7 @@ function AddPopUp({
         }}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>Ajouter un produit</DialogTitle>
+        <DialogTitle>Modifier le stock</DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -157,27 +118,26 @@ function AddPopUp({
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <AddProductForm
-            setName={setName}
-            setDescription={setDescription}
-            setGender={setGender}
-            setPrice={setPrice}
-            setCategoryName={setCategoryName}
-            setImage={setImage}
-          />
+          {data && (
+            <EditStockForm
+              data={data}
+              setSize={setSize}
+              setQuantity={setQuantity}
+            />
+          )}
         </DialogContent>
         <DialogActions>
           <Button
             disabled={isSubmitting}
-            variant="contained"
+            variant="outlined"
             onClick={handleSubmit}
           >
             Sauvegarder
           </Button>
         </DialogActions>
       </Dialog>
-    </FormControl>
+    </Fragment>
   );
 }
 
-export default AddPopUp;
+export default EditStock;

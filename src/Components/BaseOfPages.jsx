@@ -68,12 +68,12 @@ const NAVIGATION = [
     children: [
       {
         segment: "info",  
-        title: "Information",
+        title: "Liste des produits",
         icon: <ViewInArIcon />,
       },
       {
         segment: "stock",  
-        title: "Stock",
+        title: "Gestion du stock",
         icon: <DescriptionIcon />,
       },
     ],
