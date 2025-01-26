@@ -18,6 +18,7 @@ const Router = () => {
     { path: "/dashboard/orders", element: <Orders /> },
     { path: "/dashboard/clients", element: <Clients /> },  
     { path: "/dashboard/products", element: <Products /> },  
+    { path: "/dashboard/products/info", element: <Products /> },  
     { path: "/dashboard/categories", element: <Categories /> },  
     // { path: "/dashboard/reports", element: <Reports /> },  
     // { path: "/dashboard/reports/sales", element: <Sales /> },  

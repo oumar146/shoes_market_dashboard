@@ -1,32 +1,43 @@
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
+const SelectTextField = ({ defaultValue = null, datas, setData = null, label = "null", size = "100%" }) => {
+  const [value, setValue] = useState(""); // Initialisation de l'état local avec defaultValue
 
-const  SelectTextField = ({defaultValue ,datas, setData=null , label = "null", size = "100%"}) => {
+  useEffect(() => {
+    if(defaultValue)
+    setValue(defaultValue); // Si defaultValue change, mettre à jour la valeur sélectionnée
+  }, [defaultValue]);
+
+  const handleChange = (e) => {
+    const newValue = e.target.value;
+    setValue(newValue); 
+    if (setData) {
+      setData(newValue); 
+    }
+  };
 
   return (
-    <Box
-      sx={{ '& .MuiTextField-root': { m: 1, width: `${size}` } }}
-      noValidate
-      autoComplete="off"
-    >
-       { defaultValue && datas &&<TextField
+    <Box sx={{ '& .MuiTextField-root': { m: 1, width: `${size}` } }} noValidate autoComplete="off">
+      {datas  && (
+        <TextField
           select
           label={label}
-          defaultValue={defaultValue}
-          onChange={(e) => setData && setData(e.target.value)}
+          value={value} 
+          onChange={handleChange} 
           required
         >
-          {datas.map((data) => (
-            <MenuItem key={data.id || data} value={data.name || data}
-            >
+          {datas.map((data, index) => (
+            <MenuItem key={index} value={data.name || data}>
               {data.name || data}
             </MenuItem>
           ))}
-        </TextField>}
+        </TextField>
+      )}
     </Box>
   );
-}
+};
 
 export default SelectTextField;

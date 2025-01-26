@@ -6,27 +6,17 @@ import config from "../../config";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
-  const [productToUpdate, setProductToUpdate] = useState([]);
-  const [productToDelete, setProductToDelete] = useState([]);
-
-
-  // Suppression de produit
-  const deleteProduct = (selected) => {
-      // Récupérer les informations du/des produit(s) à supprimer
-      setProductToDelete(products.filter((product) => selected.includes(product.product_id)))  }
-
-    // Modification du produit
-    const editProduct = (selected) => {
-      // Récupérer les informations du produit à modifier
-      setProductToUpdate(products.filter((product) => selected.includes(product.product_id)))
-    }
+  const [rows, setRows] = useState([]);
+  const [refresh, setRefresh] = useState(false);
 
   // Récupération des produits depuis le backend
+  
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${config.apiUrl}/product/offers`);
         setProducts(response.data.products);
+
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des produits :",
@@ -35,10 +25,12 @@ const Products = () => {
       }
     };
     fetchCategories();
-  }, []);
+  }, [refresh]);
+
   return (
     <BaseOfPages>
-      <ProductsList data = {products} handleDelete = {deleteProduct} handleEdit = {editProduct}/>
+      {/* <ProductsList data = {products}/> */}
+      {products && <ProductsList data = {products} rows={rows} setRows={setRows} refresh={refresh} setRefresh={setRefresh}/>}
     </BaseOfPages>
   );
 };

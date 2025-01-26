@@ -29,21 +29,22 @@ function InputFileUpload({ handleFileChange }) {
       startIcon={<CloudUploadIcon />}
       style={{ margin: "1vh", width: "100%" }}
     >
-      Remplacer l'image
+      Ajouter l'image
       <VisuallyHiddenInput type="file" onChange={handleFileChange} />
     </Button>
   );
 }
 
-const EditProductForm = (props) => {
+const AddProductForm = (props) => {
+  // const product = data[0];
   const [categories, setCategories] = useState([]);
-  const [genders, setGenders] = useState([]);
+  const [gendersList, setGendersList] = useState([]);
 
   useEffect(() => {
     const fetchGenders = async () => {
       try {
         const response = await axios.get(`${config.apiUrl}/product/genders`);
-        setGenders(response.data.genders);
+        setGendersList(response.data.genders);
       } catch (error) {
         console.error(error);
       }
@@ -55,13 +56,23 @@ const EditProductForm = (props) => {
     const fetchCategories = async () => {
       try {
         const response = await axios.get(`${config.apiUrl}/category/get`);
+        // Mettre à jour les catégories
         setCategories(response.data.categories);
       } catch (error) {
         console.error(error);
       }
     };
+
     fetchCategories();
-  }, []); // Ajout du tableau vide pour exécuter l'effet une seule fois
+  });
+
+  useEffect(() => {
+    if(categories.length > 0 && gendersList.length > 0){
+        props.setCategoryName(categories[0].name);
+        props.setGender(gendersList[0])
+    }
+  }, [categories, props, gendersList])
+  
 
   const handleFileChange = (e) => {
     props.setImage(e.target.files[0]);
@@ -69,34 +80,21 @@ const EditProductForm = (props) => {
 
   return (
     <div>
-      {categories && genders && props.data ? (
+      {categories ? (
         <div>
-          <TextFields
-            defaultValue={props.data.product_name}
-            setData={props.setName}
-            label="Nom"
-          />
-          <TextFields
-            defaultValue={props.data.description}
-            setData={props.setDescription}
-            label="Description"
-          />
-          <TextFields
-            type="number"
-            defaultValue={props.data.price}
-            setData={props.setPrice}
-            label="Prix"
-          />
+          <TextFields setData={props.setName} label="Nom" />
+          <TextFields setData={props.setDescription} label="Description" />
+          <TextFields type="number" setData={props.setPrice} label="Prix" />
+          {categories.length > 0 && (
+            <SelectTextField
+              datas={categories}
+              setData={props.setCategoryName}
+              label="Catégorie"
+            />
+          )}
           <SelectTextField
-            defaultValue={props.data.category_name}
-            datas={categories}
-            setData={props.setCategoryName}
-            label="Catégorie"
-          />
-          <SelectTextField
-            defaultValue={props.data.gender_name} 
-            datas={genders}
-            setData={props.setGenders}
+            datas={gendersList}
+            setData={props.setGender}
             label="Genre"
           />
           <InputFileUpload handleFileChange={handleFileChange} />
@@ -108,5 +106,4 @@ const EditProductForm = (props) => {
   );
 };
 
-export default EditProductForm;
-
+export default AddProductForm;
