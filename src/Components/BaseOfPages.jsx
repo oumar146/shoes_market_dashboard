@@ -3,7 +3,6 @@ import * as React from "react";
 import { extendTheme } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import BarChartIcon from "@mui/icons-material/BarChart";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
@@ -46,14 +45,11 @@ const NAVIGATION = [
     title: "Clients",
     icon: <AssignmentIndIcon />,
   },
-  {
-    kind: "divider",
-  },
-  {
-    segment: "#/dashboard/products",  
-    title: "Produits",
-    icon: <ViewInArIcon />,
-  },
+  // {
+  //   segment: "#/dashboard/products",  
+  //   title: "Produits",
+  //   icon: <ViewInArIcon />,
+  // },
   {
     kind: "divider",
   },
@@ -66,18 +62,18 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/dashboard/reports",  
-    title: "Analyse",
-    icon: <BarChartIcon />,
+    segment: "#/dashboard/products",  
+    title: "Produits",
+    icon: <ViewInArIcon />,
     children: [
       {
-        segment: "#/dashboard/reports/sales",  
-        title: "Sales",
-        icon: <DescriptionIcon />,
+        segment: "info",  
+        title: "Liste des produits",
+        icon: <ViewInArIcon />,
       },
       {
-        segment: "#/dashboard/reports/traffic",  
-        title: "Traffic",
+        segment: "stock",  
+        title: "Gestion du stock",
         icon: <DescriptionIcon />,
       },
     ],

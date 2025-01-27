@@ -1,76 +1,84 @@
-import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import {
+  DataGrid,
+  GridToolbarContainer,
+} from "@mui/x-data-grid";
 
-const columns = [
-  {
-    width: 150,
-    label: 'Prénom',
-    dataKey: 'first_name',
-  },
-  {
-    width: 150,
-    label: 'Nom',
-    dataKey: 'last_name',
-  },
-  {
-    width: 150,
-    label: 'Téléphone',
-    dataKey: 'phone',
-  },
-  {
-    width: 250,
-    label: 'Email',
-    dataKey: 'email',
-  },
-];
+function EditToolbar({ setIsAddModalOpen }) {
+  const handleClick = () => {
+    setIsAddModalOpen(true);
+  };
 
-function UsersTable({ users }) {
   return (
-    <TableContainer component={Paper} style={{ maxHeight: 400 }}>
-      <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            {columns.map((column) => (
-              <TableCell
-                key={column.dataKey}
-                style={{ width: column.width }}
-                align="left"
-              >
-                {column.label}
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user, index) => (
-            <TableRow key={index}>
-              {columns.map((column) => (
-                <TableCell key={column.dataKey} align="left">
-                  {column.dataKey === 'phone' ? (
-                    <a href={`tel:${user[column.dataKey]}`} style={{ textDecoration: 'underline' }}>
-                      {user[column.dataKey]}
-                    </a>
-                  ) : column.dataKey === 'email' ? (
-                    <a href={`mailto:${user[column.dataKey]}`} style={{ textDecoration: 'underline' }}>
-                      {user[column.dataKey]}
-                    </a>
-                  ) : (
-                    user[column.dataKey]
-                  )}
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <GridToolbarContainer>
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+        Add User
+      </Button>
+    </GridToolbarContainer>
   );
 }
 
-export default UsersTable;
+function UsersList({users }) {
+  const [rows, setRows] = useState();
+  React.useEffect(() => {
+    setRows(
+      users.map((user) => ({
+        ...user,
+        id: user.id || user.user_id,
+        phone: user.phone ? `0${user.phone.slice(1)}` : user.phone, 
+      }))
+    );
+  }, [users, setRows]);
+  
+
+  const columns = [
+    { field: "first_name", headerName: "Prénom", width: 150, editable: true },
+    { field: "last_name", headerName: "Nom", width: 150, editable: true },
+    {
+      field: "phone",
+      headerName: "Téléphone",
+      width: 150,
+      renderCell: (params) => (
+        <a href={`tel:${params.value}`} style={{ textDecoration: "underline" }}>
+          {params.value}
+        </a>
+      ),
+    },
+    {
+      field: "email",
+      headerName: "Email",
+      width: 250,
+      renderCell: (params) => (
+        <a href={`mailto:${params.value}`} style={{ textDecoration: "underline" }}>
+          {params.value}
+        </a>
+      ),
+    },
+  ];
+
+  return (
+    <Box
+      sx={{
+        height: 500,
+        width: "100%",
+        "& .actions": {
+          color: "text.secondary",
+        },
+        "& .textPrimary": {
+          color: "text.primary",
+        },
+      }}
+    >
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        components={{ Toolbar: EditToolbar }}
+      />
+    </Box>
+  );
+}
+
+export default UsersList;

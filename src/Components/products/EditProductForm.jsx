@@ -1,6 +1,3 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import config from "../../config";
 import SelectTextField from "../form/SelectTextField";
 import TextFields from "../form/TextFields";
 import { styled } from "@mui/material/styles";
@@ -19,7 +16,7 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-function InputFileUpload({handleFileChange}) {
+function InputFileUpload({ handleFileChange }) {
   return (
     <Button
       component="label"
@@ -36,23 +33,6 @@ function InputFileUpload({handleFileChange}) {
 }
 
 const EditProductForm = (props) => {
-  // const product = data[0];
-  const sizes = [35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49];
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/category/get`);
-        // Mettre à jour les catégories
-        setCategories(response.data.categories);
-      } catch (error) {
-        props.setError("Notre serveur est en panne. Veuillez réessayer plus tard.");
-      }
-    };
-
-    fetchCategories();
-  });
 
   const handleFileChange = (e) => {
     props.setImage(e.target.files[0]);
@@ -60,29 +40,37 @@ const EditProductForm = (props) => {
 
   return (
     <div>
-      {categories ? (
+      {props.categories.length > 0 && props.genders.length > 0 && props.data ? (
         <div>
-          <TextFields defaultValue={props.data.product_name} setData={props.setName} label="Nom" />
+          <TextFields
+            defaultValue={props.data.product_name}
+            setData={props.setName}
+            label="Nom"
+          />
           <TextFields
             defaultValue={props.data.description}
             setData={props.setDescription}
             label="Description"
           />
-          <TextFields type="number" defaultValue={props.data.price} setData={props.setPrice} label="Prix" />
-            <SelectTextField
-              defaultValue={props.data.category}
-              datas={categories}
-              setData={props.setCategoryName}
-              label="Catégories"
-            />
-            <SelectTextField
-              defaultValue={props.data.size}
-              datas={sizes}
-              setData={props.setSize}
-              label="Tailles"
-            />
+          <TextFields
+            type="number"
+            defaultValue={props.data.price}
+            setData={props.setPrice}
+            label="Prix"
+          />
+          <SelectTextField
+            defaultValue={props.data.category_name}
+            datas={props.categories}
+            setData={props.setCategoryName}
+            label="Catégorie"
+          />
+          <SelectTextField
+            defaultValue={props.data.gender_name} 
+            datas={props.genders}
+            setData={props.setGender}
+            label="Genre"
+          />
           <InputFileUpload handleFileChange={handleFileChange} />
-          
         </div>
       ) : (
         <h5>Impossible de modifier</h5>
@@ -92,3 +80,4 @@ const EditProductForm = (props) => {
 };
 
 export default EditProductForm;
+

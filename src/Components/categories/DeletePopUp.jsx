@@ -29,18 +29,20 @@ function DeletePopUp({
     setOpen(isDeleteModalOpen);
   }, [isDeleteModalOpen]);
 
-  const handleSubmit = async (data) => {
+  const handleSubmit = async () => {
+
     try {
-      await axios.delete(`${config.apiUrl}/product/delete`, {
-        data: { product_id: data.product_id },
+      await axios.delete(`${config.apiUrl}/category/delete`, {
+        data: { name: data.name },
       });
-      console.log("send");
+
       setRefresh(!refresh);
       handleClose();
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   const handleClose = () => {
     setOpen(false);
@@ -83,29 +85,8 @@ function DeletePopUp({
             <div>
               <TextFields
                 disabled={true}
-                defaultValue={data.product_name}
-                label="Nom"
-              />
-              <TextFields
-                disabled={true}
-                defaultValue={data.description}
-                label="Description"
-              />
-              <TextFields
-                type="number"
-                disabled={true}
-                defaultValue={data.price}
-                label="Prix"
-              />
-              <TextFields
-                disabled={true}
-                defaultValue={data.category_name}
-                label="Catégorie"
-              />
-              <TextFields
-                disabled={true}
-                defaultValue={data.size}
-                label="Taille"
+                defaultValue={data.name}
+                label="Catégories"
               />
             </div>
           </DialogContent>
@@ -116,9 +97,7 @@ function DeletePopUp({
           </Button>
           <Button
             variant="contained"
-            onClick={() => {
-              handleSubmit(data);
-            }}
+            onClick={handleSubmit}
           >
             Supprimer
           </Button>

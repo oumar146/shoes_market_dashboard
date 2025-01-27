@@ -1,4 +1,4 @@
-import { forwardRef, useState, Fragment, useEffect } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -7,110 +7,82 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
-import EditProductForm from "./EditProductForm";
 import axios from "axios";
 import config from "../../config";
+import AddProductForm from "./AddProductForm";
+import { FormControl } from "@mui/material";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-function EditPopUp({
+function AddPopUp({
   refresh,
   setRefresh,
   isEditModalOpen,
   setIsEditModalOpen,
-  data,
 }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [gender, setGender] = useState([]);
+  const [gender, setGender] = useState("");
   const [price, setPrice] = useState("");
   const [categoryName, setCategoryName] = useState("");
   const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // const { user } = useContext(UserContext);
-
-  const [categories, setCategories] = useState([]);
-  const [genders, setGenders] = useState([]);
-
-  useEffect(() => {
-    const fetchGenders = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/product/genders`);
-        setGenders(response.data.genders);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchGenders();
-  }, []); 
-
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await axios.get(`${config.apiUrl}/category/get`);
-        setCategories(response.data.categories);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchCategories();
-  }, []);
+  // Fonction de réinitialisation des champs
+  const resetFormFields = () => {
+    setName("");
+    setDescription("");
+    setGender("");
+    setPrice("");
+    setCategoryName("");
+    setImage(null);
+  };
 
   useEffect(() => {
     setOpen(isEditModalOpen);
   }, [isEditModalOpen]);
 
-  useEffect(() => {
-    // Charger les données du produit dans le formulaire lorsque le produit change
-    if (data) {
-      setName(data.product_name || "");
-      setDescription(data.description || "");
-      setGender(data.gender_name || "");
-      setPrice(data.price || "");
-      setCategoryName(data.category_name || "");
-      setImage(data.image_url || "");
-    }
-  }, [data]);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
     if (!name || !description || !gender || !price || !categoryName || !image) {
+      alert("Tous les champs doivent être remplis.");
       return;
     }
 
+    setIsSubmitting(true);
+    const creationDate = new Date().toISOString();
 
     const formData = {
       name: name,
       description: description,
+      creation_date: creationDate,
       gender_name: gender,
       price: price,
       category_name: categoryName,
-      product_id: data.product_id,
+      email: "salloumar0107@gmail.com",
+      creator_id: 2,
     };
 
-    if (image) formData.image = image;
-
+    // Ajouter l'image si elle est présente
+    if (image) {
+      formData.image = image;
+    }
     try {
-      // Mettre à jour les informations sur le produit
-      await axios.put(`${config.apiUrl}/product/update`, formData, {
+      const token = localStorage.getItem("token");
+      await axios.post(`${config.apiUrl}/product/new`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
       });
-      setRefresh(!refresh);
-      setName("");
-      setDescription("");
-      setGender("");
-      setPrice("");
-      setCategoryName("");
-      setImage(null);
-      handleClose();
+
+      resetFormFields(); // Réinitialiser les champs après soumission réussie
+      setRefresh(!refresh); // Refresh les data
+      handleClose(); // Fermer le modal
     } catch (error) {
       console.error(error);
     } finally {
@@ -123,12 +95,14 @@ function EditPopUp({
 
   const handleClose = () => {
     if (!isSubmitting) {
+      resetFormFields(); 
       setOpen(false);
       setIsEditModalOpen(false);
     }
   };
+
   return (
-    <Fragment>
+    <FormControl>
       <Button
         style={{ backgroundColor: "transparent" }}
         onMouseDown={(e) => {
@@ -141,8 +115,7 @@ function EditPopUp({
         size="small"
         onClick={handleClickOpen}
       ></Button>
-       {categories.length > 0 && genders.length > 0 && data && (
-        <Dialog
+      <Dialog
         fullWidth="md"
         maxWidth="md"
         open={open}
@@ -156,7 +129,7 @@ function EditPopUp({
         }}
         aria-describedby="alert-dialog-slide-description"
       >
-        <DialogTitle>Modifier un produit</DialogTitle>
+        <DialogTitle>Ajouter un produit</DialogTitle>
         <IconButton
           aria-label="close"
           onClick={handleClose}
@@ -170,28 +143,27 @@ function EditPopUp({
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          {data && (
-            <EditProductForm
-            categories={categories}
-            genders={genders}
-              data={data}
-              setName={setName}
-              setDescription={setDescription}
-              setGender={setGender} // Assure-toi que tu passes bien cette fonction
-              setPrice={setPrice}
-              setCategoryName={setCategoryName}
-              setImage={setImage}
-            />
-          )}
+          <AddProductForm
+            setName={setName}
+            setDescription={setDescription}
+            setGender={setGender}
+            setPrice={setPrice}
+            setCategoryName={setCategoryName}
+            setImage={setImage}
+          />
         </DialogContent>
         <DialogActions>
-          <Button disabled={isSubmitting} variant="outlined" onClick={handleSubmit}>
+          <Button
+            disabled={isSubmitting}
+            variant="contained"
+            onClick={handleSubmit}
+          >
             Sauvegarder
           </Button>
         </DialogActions>
-      </Dialog>)}
-    </Fragment>
+      </Dialog>
+    </FormControl>
   );
 }
 
-export default EditPopUp;
+export default AddPopUp;
