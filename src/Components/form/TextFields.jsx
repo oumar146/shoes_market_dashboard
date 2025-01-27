@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
-const TextFields = ({disabled = false, type = 'text', defaultValue, setData = null, size = "100%", label = null }) => {
+const TextFields = ({required=false, disabled = false, type = 'text', defaultValue, setData = null, size = "100%", label = null }) => {
   const handleInputChange = (e) => {
     let value = e.target.value;
 
@@ -28,6 +28,7 @@ const TextFields = ({disabled = false, type = 'text', defaultValue, setData = nu
         id="outlined-size-normal"
         defaultValue={defaultValue}
         onChange={handleInputChange}
+        required
       />
     </Box>
   );

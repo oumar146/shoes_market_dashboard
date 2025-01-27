@@ -22,7 +22,7 @@ function EditToolbar({ setIsAddModalOpen }) {
     <div>
       <GridToolbarContainer>
         <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Ajouter
+          Ajouter
         </Button>
       </GridToolbarContainer>
     </div>
@@ -34,7 +34,7 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
     setRows(data.map((item) => ({ ...item, id: item.id || item.product_id })));
   }, [data, setRows]);
 
-  const [selectedRows, setSelectedRows] = useState([]); 
+  const [selectedRows, setSelectedRows] = useState([]); // Pour passer les données à DeletePopUp
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -52,27 +52,13 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
   };
 
   const columns = [
-    { field: "product_name", headerName: "Nom", width: 200, editable: true },
     {
-      field: "price",
-      headerName: "Prix",
-      type: "number",
+      field: "name",
+      headerName: "Catégorie",
+      type: "text",
       width: 100,
       editable: true,
     },
-    {
-      field: "gender_name",
-      headerName: "Genre",
-      width: 200,
-      editable: true,
-    },
-    {
-      field: "category_name",
-      headerName: "Catégorie",
-      width: 220,
-      editable: true,
-    },
-    { field: "reference", headerName: "Référence", width: 220 },
     {
       field: "actions",
       type: "actions",
@@ -101,7 +87,7 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
     <Box
       sx={{
         height: 500,
-        width: "100%",
+        width: "50%",
         "& .actions": {
           color: "text.secondary",
         },
