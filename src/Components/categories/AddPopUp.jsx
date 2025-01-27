@@ -9,9 +9,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import IconButton from "@mui/material/IconButton";
 import axios from "axios";
 import config from "../../config";
-import AddProductForm from "./AddProductForm";
 import { FormControl } from "@mui/material";
-
+import TextFields from "../form/TextFields";
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -23,22 +22,12 @@ function AddPopUp({
   setIsEditModalOpen,
 }) {
   const [open, setOpen] = useState(false);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [gender, setGender] = useState("");
-  const [price, setPrice] = useState("");
   const [categoryName, setCategoryName] = useState("");
-  const [image, setImage] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Fonction de réinitialisation des champs
   const resetFormFields = () => {
-    setName("");
-    setDescription("");
-    setGender("");
-    setPrice("");
     setCategoryName("");
-    setImage(null);
   };
 
   useEffect(() => {
@@ -48,37 +37,19 @@ function AddPopUp({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!name || !description || !gender || !price || !categoryName || !image) {
+    if (!categoryName) {
       alert("Tous les champs doivent être remplis.");
       return;
     }
 
     setIsSubmitting(true);
-    const creationDate = new Date().toISOString();
 
     const formData = {
-      name: name,
-      description: description,
-      creation_date: creationDate,
-      gender_name: gender,
-      price: price,
-      category_name: categoryName,
-      email: "salloumar0107@gmail.com",
-      creator_id: 2,
+      name: categoryName,
     };
 
-    // Ajouter l'image si elle est présente
-    if (image) {
-      formData.image = image;
-    }
     try {
-      const token = localStorage.getItem("token");
-      await axios.post(`${config.apiUrl}/product/new`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.post(`${config.apiUrl}/category/new`, formData);
 
       resetFormFields(); // Réinitialiser les champs après soumission réussie
       setRefresh(!refresh); // Refresh les data
@@ -95,7 +66,7 @@ function AddPopUp({
 
   const handleClose = () => {
     if (!isSubmitting) {
-      resetFormFields(); 
+      resetFormFields();
       setOpen(false);
       setIsEditModalOpen(false);
     }
@@ -143,14 +114,7 @@ function AddPopUp({
           <CloseIcon />
         </IconButton>
         <DialogContent>
-          <AddProductForm
-            setName={setName}
-            setDescription={setDescription}
-            setGender={setGender}
-            setPrice={setPrice}
-            setCategoryName={setCategoryName}
-            setImage={setImage}
-          />
+          <TextFields setData={setCategoryName} label="Catégories" />
         </DialogContent>
         <DialogActions>
           <Button

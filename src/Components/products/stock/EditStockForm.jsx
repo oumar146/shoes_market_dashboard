@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import config from "../../../config";
-import SelectTextField from "../../form/SelectTextField";
 import TextFields from "../../form/TextFields";
 
 const EditStockForm = (props) => {
@@ -18,7 +17,7 @@ const EditStockForm = (props) => {
       }
     };
     fetchSizes();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -31,7 +30,6 @@ const EditStockForm = (props) => {
     };
     fetchCategories();
   }, []); // Ajout du tableau vide pour exécuter l'effet une seule fois
-
 
   return (
     <div>
@@ -50,14 +48,14 @@ const EditStockForm = (props) => {
             label="Prix"
             disabled
           />
-          <SelectTextField
+          <TextFields
+            type="number"
             defaultValue={props.data.size}
-            datas={sizes}
             setData={props.setSizes}
             label="Taille"
             disabled
           />
-                  <TextFields
+          <TextFields
             type="number"
             defaultValue={props.data.quantity}
             setData={props.setQuantity}
@@ -72,4 +70,3 @@ const EditStockForm = (props) => {
 };
 
 export default EditStockForm;
-

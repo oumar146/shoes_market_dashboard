@@ -85,13 +85,12 @@ const AddProductForm = (props) => {
           <TextFields setData={props.setName} label="Nom" />
           <TextFields setData={props.setDescription} label="Description" />
           <TextFields type="number" setData={props.setPrice} label="Prix" />
-          {categories.length > 0 && (
             <SelectTextField
               datas={categories}
               setData={props.setCategoryName}
               label="Catégorie"
             />
-          )}
+        
           <SelectTextField
             datas={gendersList}
             setData={props.setGender}

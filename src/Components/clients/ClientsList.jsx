@@ -24,8 +24,15 @@ function EditToolbar({ setIsAddModalOpen }) {
 function UsersList({users }) {
   const [rows, setRows] = useState();
   React.useEffect(() => {
-    setRows(users.map((user) => ({ ...user, id: user.id || user.user_id })));
+    setRows(
+      users.map((user) => ({
+        ...user,
+        id: user.id || user.user_id,
+        phone: user.phone ? `0${user.phone.slice(1)}` : user.phone, 
+      }))
+    );
   }, [users, setRows]);
+  
 
   const columns = [
     { field: "first_name", headerName: "Prénom", width: 150, editable: true },

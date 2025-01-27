@@ -4,7 +4,6 @@ import EditIcon from "@mui/icons-material/Edit";
 import {
   DataGrid,
   GridActionsCellItem,
-  GridRowEditStopReasons,
 } from "@mui/x-data-grid";
 import EditStock from "./EditStock";
 
@@ -33,25 +32,13 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
     setRows(transformedRows);
   }, [data, setRows]);
 
-  const [rowModesModel, setRowModesModel] = useState({});
   const [selectedRows, setSelectedRows] = useState([]); // Pour passer les données à DeletePopUp
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-
-  const handleRowEditStop = (params, event) => {
-    if (params.reason === GridRowEditStopReasons.rowFocusOut) {
-      event.defaultMuiPrevented = true;
-    }
-  };
 
   const handleEditClick = (id) => () => {
     const rowToEdit = rows.find((row) => row.id === id);
     setSelectedRows(rowToEdit);
     setIsEditModalOpen(true);
-  };
-
-
-  const handleRowModesModelChange = (newRowModesModel) => {
-    setRowModesModel(newRowModesModel);
   };
 
   const columns = [
@@ -113,10 +100,6 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
       <DataGrid
         rows={rows}
         columns={columns}
-        editMode="row"
-        rowModesModel={rowModesModel}
-        onRowModesModelChange={handleRowModesModelChange}
-        onRowEditStop={handleRowEditStop}
       />
       {isEditModalOpen && data && selectedRows && (
         <EditStock

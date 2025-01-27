@@ -1,43 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import config from "../../config";
+import axios from "axios";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
   DataGrid,
-  GridToolbarContainer,
   GridActionsCellItem,
 } from "@mui/x-data-grid";
-import DeletePopUp from "./DeletePopUp";
 import EditPopUp from "./EditPopUp";
-import AddPopUp from "./AddPopUp";
 
-function EditToolbar({ setIsAddModalOpen }) {
-  const handleClick = () => {
-    setIsAddModalOpen(true);
-  };
 
-  return (
-    <div>
-      <GridToolbarContainer>
-        <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
-        Ajouter
-        </Button>
-      </GridToolbarContainer>
-    </div>
-  );
-}
 
-function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
+function OrdersList({ refresh, setRefresh, rows, setRows, data }) {
   React.useEffect(() => {
     setRows(data.map((item) => ({ ...item, id: item.id || item.product_id })));
   }, [data, setRows]);
 
-  const [selectedRows, setSelectedRows] = useState([]); 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedRows, setSelectedRows] = useState([]);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const [statuses, setStatuses] = useState([]);
+
+  useEffect(() => {
+    const fetchStatuses = async () => {
+      try {
+        const response = await axios.get(`${config.apiUrl}/order/status`);
+        setStatuses(response.data.status);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchStatuses();
+  }, []);
 
   const handleEditClick = (id) => () => {
     const rowToEdit = rows.find((row) => row.id === id);
@@ -48,31 +43,63 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
   const handleDeleteClick = (id) => () => {
     const rowToDelete = rows.find((row) => row.id === id);
     setSelectedRows([rowToDelete]);
-    setIsDeleteModalOpen(true);
   };
 
+
   const columns = [
-    { field: "product_name", headerName: "Nom", width: 200, editable: true },
+    { field: "order_id", headerName: "Référence", width: 220 },
     {
-      field: "price",
+      field: "product_name",
+      headerName: "Nom",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "product_price",
       headerName: "Prix",
       type: "number",
       width: 100,
       editable: true,
     },
     {
-      field: "gender_name",
-      headerName: "Genre",
-      width: 200,
+      field: "user_email",
+      headerName: "Email Utilisateur",
+      width: 250,
+      editable: false,
+    },
+    {
+      field: "user_phone",
+      headerName: "Téléphone Utilisateur",
+      width: 150,
+      editable: false,
+    },
+    {
+      field: "quantity",
+      headerName: "Quantité",
+      type: "number",
+      width: 100,
       editable: true,
     },
     {
-      field: "category_name",
-      headerName: "Catégorie",
-      width: 220,
+      field: "amount",
+      headerName: "Montant Total",
+      type: "number",
+      width: 150,
+      editable: false,
+    },
+    {
+      field: "created_at",
+      headerName: "Date de Création",
+      width: 200,
+      editable: false,
+    },
+    {
+      field: "order_status",
+      headerName: "Statut",
+      type: "number",
+      width: 120,
       editable: true,
     },
-    { field: "reference", headerName: "Référence", width: 220 },
     {
       field: "actions",
       type: "actions",
@@ -110,37 +137,14 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
         },
       }}
     >
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        slots={{ toolbar: EditToolbar }}
-        slotProps={{ toolbar: { setIsAddModalOpen } }}
-      />
-      {isDeleteModalOpen && data && (
-        <DeletePopUp
-          data={selectedRows[0]}
-          isDeleteModalOpen={isDeleteModalOpen}
-          setIsDeleteModalOpen={setIsDeleteModalOpen}
-          refresh={refresh}
-          setRefresh={setRefresh}
-        />
-      )}
+      <DataGrid rows={rows} columns={columns} />
 
-      {isEditModalOpen && data && selectedRows && (
+      {isEditModalOpen && data && selectedRows && statuses && (
         <EditPopUp
           data={selectedRows}
+          statuses={statuses}
           isEditModalOpen={isEditModalOpen}
           setIsEditModalOpen={setIsEditModalOpen}
-          refresh={refresh}
-          setRefresh={setRefresh}
-        />
-      )}
-
-      {isAddModalOpen && (
-        <AddPopUp
-          data={selectedRows}
-          isEditModalOpen={isAddModalOpen}
-          setIsEditModalOpen={setIsAddModalOpen}
           refresh={refresh}
           setRefresh={setRefresh}
         />
@@ -149,4 +153,4 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
   );
 }
 
-export default ProductsList;
+export default OrdersList;
