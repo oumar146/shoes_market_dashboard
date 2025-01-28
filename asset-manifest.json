@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/shoes_market_dashboard/static/css/main.fb196d8c.css",
-    "main.js": "/shoes_market_dashboard/static/js/main.05ae4023.js",
+    "main.js": "/shoes_market_dashboard/static/js/main.104eea62.js",
     "index.html": "/shoes_market_dashboard/index.html",
     "main.fb196d8c.css.map": "/shoes_market_dashboard/static/css/main.fb196d8c.css.map",
-    "main.05ae4023.js.map": "/shoes_market_dashboard/static/js/main.05ae4023.js.map"
+    "main.104eea62.js.map": "/shoes_market_dashboard/static/js/main.104eea62.js.map"
   },
   "entrypoints": [
     "static/css/main.fb196d8c.css",
-    "static/js/main.05ae4023.js"
+    "static/js/main.104eea62.js"
   ]
 }
