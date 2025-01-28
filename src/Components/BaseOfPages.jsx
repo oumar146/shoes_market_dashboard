@@ -33,7 +33,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/oumar146.github.io/shoes_market_dashboard/dashboard/orders",
+    segment: "#/dashboard/orders",
     title: "Commandes",
     icon: <ShoppingCartIcon />,
   },
@@ -41,7 +41,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "/oumar146.github.io/shoes_market_dashboard/dashboard/clients",  
+    segment: "#/dashboard/clients",  
     title: "Clients",
     icon: <AssignmentIndIcon />,
   },
