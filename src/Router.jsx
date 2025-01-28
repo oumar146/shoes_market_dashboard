@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { NavigationProvider } from "./context/NavigationContext";
 import Home from "./pages/sideMenu/Home";
 import Orders from "./pages/sideMenu/Orders";
@@ -33,7 +33,7 @@ const Router = () => {
   
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <NavigationProvider>
         <Routes>
             {routes.map(({ path, element }, index) => (
@@ -48,7 +48,7 @@ const Router = () => {
           <Route path="*" element={<div>Page not found</div>} />
         </Routes>
       </NavigationProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 

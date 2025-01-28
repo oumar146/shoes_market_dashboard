@@ -22,7 +22,7 @@ const demoSession = {
 const NAVIGATION = [
   {
     kind: "header",
-    title: "Main items",
+    title: "Main Items",
   },
   {
     segment: "/dashboard",
@@ -33,7 +33,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "/dashboard/orders",
+    segment: "dashboard/orders",
     title: "Commandes",
     icon: <ShoppingCartIcon />,
   },
@@ -41,20 +41,15 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "/dashboard/clients",  
+    segment: "/dashboard/clients",
     title: "Clients",
     icon: <AssignmentIndIcon />,
   },
-  // {
-  //   segment: "#/dashboard/products",  
-  //   title: "Produits",
-  //   icon: <ViewInArIcon />,
-  // },
   {
     kind: "divider",
   },
   {
-    segment: "/dashboard/categories",  
+    segment: "/dashboard/categories",
     title: "Catégories",
     icon: <ShoppingCartIcon />,
   },
