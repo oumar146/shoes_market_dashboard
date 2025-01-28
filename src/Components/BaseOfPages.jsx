@@ -49,7 +49,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "/dashboard/categories",
+    segment: "#/dashboard/categories",
     title: "Catégories",
     icon: <ShoppingCartIcon />,
   },
