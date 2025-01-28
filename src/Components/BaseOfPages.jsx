@@ -25,7 +25,7 @@ const NAVIGATION = [
     title: "Main items",
   },
   {
-    segment: "#/dashboard",
+    segment: "/dashboard",
     title: "Dashboard",
     icon: <DashboardIcon />,
   },
@@ -33,7 +33,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/dashboard/orders",
+    segment: "/dashboard/orders",
     title: "Commandes",
     icon: <ShoppingCartIcon />,
   },
@@ -41,7 +41,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/shoes_market_dashboard/dashboard/clients",  
+    segment: "/dashboard/clients",  
     title: "Clients",
     icon: <AssignmentIndIcon />,
   },
@@ -54,7 +54,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "/shoes_market_dashboard/dashboard/categories",  
+    segment: "/dashboard/categories",  
     title: "Catégories",
     icon: <ShoppingCartIcon />,
   },
@@ -62,7 +62,7 @@ const NAVIGATION = [
     kind: "divider",
   },
   {
-    segment: "#/dashboard/products",  
+    segment: "/dashboard/products",  
     title: "Produits",
     icon: <ViewInArIcon />,
     children: [
