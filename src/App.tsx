@@ -29,6 +29,16 @@ const NAVIGATION: Navigation = [
     title: 'Catégories',
     icon: <ShoppingCartIcon />,
   },
+  { kind: "divider" },
+  {
+    segment: "products",
+    title: "Produits",
+    icon: <ShoppingCartIcon />,
+    children: [
+      { segment: "info", title: "Liste des produits", icon: <ShoppingCartIcon /> },
+      { segment: "stock", title: "Gestion du stock", icon: <ShoppingCartIcon /> },
+    ],
+  },
 ];
 
 const BRANDING = {

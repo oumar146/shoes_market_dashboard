@@ -1,5 +1,4 @@
 import OrdersList from "../../components/orders/OrdersList";
-import BaseOfPages from "../../components/BaseOfPages";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import config from "../../config";

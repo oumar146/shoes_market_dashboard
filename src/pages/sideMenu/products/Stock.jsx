@@ -1,4 +1,3 @@
-import BaseOfPages from "../../../components/BaseOfPages";
 import StockList from "../../../components/products/stock/StockList";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -28,9 +27,9 @@ const Stock = () => {
   }, [refresh]);
 
   return (
-    <BaseOfPages>
+    <div>
       {products && <StockList data = {products} rows={rows} setRows={setRows} refresh={refresh} setRefresh={setRefresh}/>}
-    </BaseOfPages>
+    </div>
   );
 };
 

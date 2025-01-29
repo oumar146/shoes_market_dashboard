@@ -1,4 +1,3 @@
-import BaseOfPages from "../../components/BaseOfPages";
 import React, { useEffect, useState } from "react";
 import CategoriesList from "../../components/categories/CategoriesList";
 import axios from "axios";
@@ -25,9 +24,9 @@ const Catégories = () => {
   }, [refresh]);
     
   return (
-    <BaseOfPages>
+    <div>
       {categories && <CategoriesList data = {categories} rows={rows} setRows={setRows} refresh={refresh} setRefresh={setRefresh}/>}
-      </BaseOfPages>
+      </div>
   );
 };
 
