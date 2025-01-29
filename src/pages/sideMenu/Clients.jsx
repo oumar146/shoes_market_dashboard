@@ -22,9 +22,9 @@ const Clients = () => {
   }, []);
     
   return (
-    <BaseOfPages>
-      <ClientsList users = {users} /> 
-    </BaseOfPages>
+    <div>
+      {users && <ClientsList users = {users} /> }
+    </div>
   );
 };
 

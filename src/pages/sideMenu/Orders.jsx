@@ -25,9 +25,9 @@ const Orders = () => {
   }, [refresh]);
     
   return (
-    <BaseOfPages>
+    <div>
       {orders && <OrdersList data = {orders} rows={rows} setRows={setRows} refresh={refresh} setRefresh={setRefresh}/>}
-      </BaseOfPages>
+      </div>
   );
 };
 
