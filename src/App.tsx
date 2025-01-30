@@ -42,7 +42,7 @@ const NAVIGATION: Navigation = [
 ];
 
 const BRANDING = {
-  title: 'My Toolpad Core App',
+  title: 'ShoesMarket',
 };
 
 export default function App() {
