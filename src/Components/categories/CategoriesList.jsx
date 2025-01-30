@@ -56,14 +56,14 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
       field: "name",
       headerName: "Catégorie",
       type: "text",
-      width: 100,
+      width: 500,
       editable: true,
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 100,
+      width: 500,
       getActions: ({ id }) => {
         return [
           <GridActionsCellItem

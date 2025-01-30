@@ -4,15 +4,20 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Outlet } from 'react-router';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import type { Navigation } from '@toolpad/core/AppProvider';
-
+import DescriptionIcon from "@mui/icons-material/Description";
+import { AppProvider } from "@toolpad/core/AppProvider";
+import { DashboardLayout } from "@toolpad/core/DashboardLayout";
+import { PageContainer } from "@toolpad/core/PageContainer";
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import ViewInArIcon from '@mui/icons-material/ViewInAr';
 const NAVIGATION: Navigation = [
   {
-    kind: 'header',
-    title: 'Main items',
-  },
-  {
+    segment: 'dashboard',
     title: 'Dashboard',
     icon: <DashboardIcon />,
+  },
+  {
+    kind: "divider",
   },
   {
     segment: 'orders',
@@ -20,9 +25,15 @@ const NAVIGATION: Navigation = [
     icon: <ShoppingCartIcon />,
   },
   {
+    kind: "divider",
+  },
+  {
     segment: 'clients',
     title: 'Clients',
-    icon: <ShoppingCartIcon />,
+    icon: <AssignmentIndIcon  />,
+  },
+  {
+    kind: "divider",
   },
   {
     segment: 'categories',
@@ -31,14 +42,17 @@ const NAVIGATION: Navigation = [
   },
   { kind: "divider" },
   {
-    segment: "products",
-    title: "Produits",
-    icon: <ShoppingCartIcon />,
-    children: [
-      { segment: "info", title: "Liste des produits", icon: <ShoppingCartIcon /> },
-      { segment: "stock", title: "Gestion du stock", icon: <ShoppingCartIcon /> },
-    ],
+    title: "Liste des produits",
+    segment: "products/info",
+    icon: <ViewInArIcon  />,
   },
+  { kind: "divider" },
+  {
+    title: "Gestion du stock",
+    segment: "products/stock",
+    icon: <DescriptionIcon  />,
+  },
+  
 ];
 
 const BRANDING = {
