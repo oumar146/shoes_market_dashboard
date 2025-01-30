@@ -87,7 +87,7 @@ function ProductsList({ refresh, setRefresh, rows, setRows, data }) {
     <Box
       sx={{
         height: 500,
-        width: "50%",
+        width: "100%",
         "& .actions": {
           color: "text.secondary",
         },

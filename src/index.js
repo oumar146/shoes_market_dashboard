@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider , createBrowserRouter} from "react-router-dom";
+import { RouterProvider , createHashRouter} from "react-router-dom";
 import "./index.css";
 import App from "./App.tsx";
 import Layout from "./components/Layout.jsx";
@@ -10,7 +10,7 @@ import Catégories from "./pages/sideMenu/Categories.jsx";
 import Products from "./pages/sideMenu/products/Products.jsx";
 import Stock from "./pages/sideMenu/products/Stock.jsx";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     Component: App,
     children: [
@@ -18,25 +18,11 @@ const router = createBrowserRouter([
         path: '/',
         Component: Layout,
         children: [
-          {
-            path: 'orders',
-            Component:  Orders,
-          },
-          {
-            path: 'clients',
-            Component: Clients,
-          },
-          {
-            path: 'categories',
-            Component: Catégories,
-          },
-          {
-            path: 'products/info',
-            Component: Products,
-          },          {
-            path: 'products/stock',
-            Component: Stock,
-          },          
+          { path: 'orders', Component: Orders },
+          { path: 'clients', Component: Clients },
+          { path: 'categories', Component: Catégories },
+          { path: 'products/info', Component: Products },
+          { path: 'products/stock', Component: Stock },
         ],
       },
     ],
