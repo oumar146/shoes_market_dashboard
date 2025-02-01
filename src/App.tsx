@@ -5,9 +5,6 @@ import { Outlet } from 'react-router';
 import { ReactRouterAppProvider } from '@toolpad/core/react-router';
 import type { Navigation } from '@toolpad/core/AppProvider';
 import DescriptionIcon from "@mui/icons-material/Description";
-import { AppProvider } from "@toolpad/core/AppProvider";
-import { DashboardLayout } from "@toolpad/core/DashboardLayout";
-import { PageContainer } from "@toolpad/core/PageContainer";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 const NAVIGATION: Navigation = [
@@ -21,7 +18,7 @@ const NAVIGATION: Navigation = [
   },
   {
     segment: 'orders',
-    title: 'Orders',
+    title: 'Commandes',
     icon: <ShoppingCartIcon />,
   },
   {

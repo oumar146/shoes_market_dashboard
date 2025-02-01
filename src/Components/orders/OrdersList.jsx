@@ -3,7 +3,6 @@ import config from "../../config";
 import axios from "axios";
 import Box from "@mui/material/Box";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/DeleteOutlined";
 import {
   DataGrid,
   GridActionsCellItem,
@@ -39,15 +38,9 @@ function OrdersList({ refresh, setRefresh, rows, setRows, data }) {
     setSelectedRows(rowToEdit);
     setIsEditModalOpen(true);
   };
-
-  const handleDeleteClick = (id) => () => {
-    const rowToDelete = rows.find((row) => row.id === id);
-    setSelectedRows([rowToDelete]);
-  };
-
-
+  
   const columns = [
-    { field: "order_id", headerName: "Référence", width: 220 },
+    { field: "reference", headerName: "Référence", width: 220 },
     {
       field: "product_name",
       headerName: "Nom",
@@ -111,12 +104,6 @@ function OrdersList({ refresh, setRefresh, rows, setRows, data }) {
             icon={<EditIcon />}
             label="Edit"
             onClick={handleEditClick(id)}
-            color="inherit"
-          />,
-          <GridActionsCellItem
-            icon={<DeleteIcon />}
-            label="Delete"
-            onClick={handleDeleteClick(id)}
             color="inherit"
           />,
         ];
