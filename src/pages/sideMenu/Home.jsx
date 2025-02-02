@@ -1,12 +1,8 @@
-import BaseOfPages from "../../Components/BaseOfPages";
 
-const Home = () => {
-    
-  return (
-    <BaseOfPages>
-      Home 
-    </BaseOfPages>
-  );
-};
+const Home = () => (
+  <div>
+    Home
+  </div>
+);
 
 export default Home;
