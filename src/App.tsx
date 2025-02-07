@@ -8,11 +8,11 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
 const NAVIGATION: Navigation = [
-  {
-    segment: 'dashboard',
-    title: 'Dashboard',
-    icon: <DashboardIcon />,
-  },
+  // {
+  //   segment: 'dashboard',
+  //   title: 'Dashboard',
+  //   icon: <DashboardIcon />,
+  // },
   {
     kind: "divider",
   },
